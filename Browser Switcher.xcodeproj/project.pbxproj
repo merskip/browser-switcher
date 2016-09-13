@@ -11,6 +11,7 @@
 		B253A2171D88674400A26210 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B253A2161D88674400A26210 /* main.m */; };
 		B253A2191D88674400A26210 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B253A2181D88674400A26210 /* Assets.xcassets */; };
 		B253A21C1D88674400A26210 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B253A21A1D88674400A26210 /* MainMenu.xib */; };
+		B253A2251D8867A400A26210 /* BSBrowserOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = B253A2241D8867A400A26210 /* BSBrowserOpener.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,8 @@
 		B253A2181D88674400A26210 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B253A21B1D88674400A26210 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		B253A21D1D88674400A26210 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B253A2231D8867A400A26210 /* BSBrowserOpener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBrowserOpener.h; sourceTree = "<group>"; };
+		B253A2241D8867A400A26210 /* BSBrowserOpener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBrowserOpener.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +58,8 @@
 			children = (
 				B253A2121D88674400A26210 /* AppDelegate.h */,
 				B253A2131D88674400A26210 /* AppDelegate.m */,
+				B253A2231D8867A400A26210 /* BSBrowserOpener.h */,
+				B253A2241D8867A400A26210 /* BSBrowserOpener.m */,
 				B253A2181D88674400A26210 /* Assets.xcassets */,
 				B253A21A1D88674400A26210 /* MainMenu.xib */,
 				B253A21D1D88674400A26210 /* Info.plist */,
@@ -141,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B253A2171D88674400A26210 /* main.m in Sources */,
+				B253A2251D8867A400A26210 /* BSBrowserOpener.m in Sources */,
 				B253A2141D88674400A26210 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
