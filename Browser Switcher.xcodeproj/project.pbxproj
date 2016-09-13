@@ -13,6 +13,7 @@
 		B253A21C1D88674400A26210 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = B253A21A1D88674400A26210 /* MainMenu.xib */; };
 		B253A2251D8867A400A26210 /* BSBrowserOpener.m in Sources */ = {isa = PBXBuildFile; fileRef = B253A2241D8867A400A26210 /* BSBrowserOpener.m */; };
 		B253A2281D88742F00A26210 /* BSBrowserItem.m in Sources */ = {isa = PBXBuildFile; fileRef = B253A2271D88742F00A26210 /* BSBrowserItem.m */; };
+		B253A22E1D888E0500A26210 /* BSBrowsersConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B253A22D1D888E0500A26210 /* BSBrowsersConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,8 @@
 		B253A2241D8867A400A26210 /* BSBrowserOpener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBrowserOpener.m; sourceTree = "<group>"; };
 		B253A2261D88742F00A26210 /* BSBrowserItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBrowserItem.h; sourceTree = "<group>"; };
 		B253A2271D88742F00A26210 /* BSBrowserItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBrowserItem.m; sourceTree = "<group>"; };
+		B253A22C1D888E0500A26210 /* BSBrowsersConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSBrowsersConfig.h; sourceTree = "<group>"; };
+		B253A22D1D888E0500A26210 /* BSBrowsersConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSBrowsersConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +72,8 @@
 				B253A2151D88674400A26210 /* Supporting Files */,
 				B253A2261D88742F00A26210 /* BSBrowserItem.h */,
 				B253A2271D88742F00A26210 /* BSBrowserItem.m */,
+				B253A22C1D888E0500A26210 /* BSBrowsersConfig.h */,
+				B253A22D1D888E0500A26210 /* BSBrowsersConfig.m */,
 			);
 			path = "Browser Switcher";
 			sourceTree = "<group>";
@@ -153,6 +158,7 @@
 				B253A2171D88674400A26210 /* main.m in Sources */,
 				B253A2251D8867A400A26210 /* BSBrowserOpener.m in Sources */,
 				B253A2281D88742F00A26210 /* BSBrowserItem.m in Sources */,
+				B253A22E1D888E0500A26210 /* BSBrowsersConfig.m in Sources */,
 				B253A2141D88674400A26210 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

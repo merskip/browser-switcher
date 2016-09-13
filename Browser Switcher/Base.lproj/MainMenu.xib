@@ -15,6 +15,7 @@
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
                 <outlet property="addUrlTemplateButton" destination="IDh-8N-mcG" id="H7B-Wq-TQa"/>
+                <outlet property="defaultBrowserField" destination="zIW-uS-Jru" id="MUP-Nf-tCE"/>
                 <outlet property="outlineView" destination="W2c-k3-QFL" id="2em-bB-pG0"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
@@ -690,18 +691,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zIW-uS-Jru">
-                        <rect key="frame" x="128" y="320" width="332" height="22"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="22" id="drc-4j-nVd"/>
-                            <constraint firstAttribute="width" constant="332" id="ppT-br-1UM"/>
-                        </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hut-gy-941">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoP-3w-pbG">
                         <rect key="frame" x="20" y="49" width="440" height="261"/>
                         <clipView key="contentView" id="qcL-xi-iO4">
@@ -801,6 +790,18 @@
                             <action selector="saveHandler:" target="Voe-Tx-rLC" id="Are-Yf-7c1"/>
                         </connections>
                     </button>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zIW-uS-Jru">
+                        <rect key="frame" x="128" y="320" width="332" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="22" id="drc-4j-nVd"/>
+                            <constraint firstAttribute="width" constant="332" id="ppT-br-1UM"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="hut-gy-941">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="hoP-3w-pbG" secondAttribute="trailing" constant="20" id="2iD-Y3-vow"/>

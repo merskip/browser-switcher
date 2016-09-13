@@ -9,15 +9,18 @@
 #import "AppDelegate.h"
 #import "BSBrowserOpener.h"
 #import "BSBrowserItem.h"
+#import "BSBrowsersConfig.h"
 
 @interface AppDelegate () <NSOutlineViewDelegate, NSOutlineViewDataSource, NSTextFieldDelegate>
 
 @property (nonatomic, assign) BOOL recivedUrl;
 @property (weak) IBOutlet NSWindow *window;
 
-@property (nonatomic, strong) NSMutableArray<BSBrowserItem *> *browsers;
+@property (weak) IBOutlet NSTextField *defaultBrowserField;
 @property (weak) IBOutlet NSOutlineView *outlineView;
 @property (weak) IBOutlet NSButton *addUrlTemplateButton;
+
+@property (nonatomic, strong) BSBrowsersConfig *browsersConfig;
 
 @end
 
@@ -26,11 +29,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSData *browersData = [userDefaults objectForKey:@"browers"];
-        NSMutableArray<BSBrowserItem *> *browers = [NSKeyedUnarchiver unarchiveObjectWithData:browersData];
-        
-        _browsers = [NSMutableArray arrayWithArray:browers];
+        self.browsersConfig = [BSBrowsersConfig load];
     }
     return self;
 }
@@ -44,6 +43,7 @@
         [[NSApplication sharedApplication] terminate:self];
     } else {
         [self.outlineView expandItem:nil expandChildren:YES];
+        self.defaultBrowserField.stringValue = self.browsersConfig.defaultBrowser;
         [self.window setIsVisible:YES];
     }
 }
@@ -70,10 +70,8 @@
 }
 
 - (IBAction)saveHandler:(id)sender {
-    NSData *browersData = [NSKeyedArchiver archivedDataWithRootObject:self.browsers];
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:browersData forKey:@"browers"];
-    if (![userDefaults synchronize]) {
+    self.browsersConfig.defaultBrowser = self.defaultBrowserField.stringValue;
+    if (![self.browsersConfig save]) {
         NSAlert *alert = [NSAlert new];
         alert.alertStyle = NSCriticalAlertStyle;
         alert.messageText = @"Failed save changes";
@@ -81,13 +79,13 @@
     }
 }
 
-
 - (IBAction)addBrowserHandler:(id)sender {
     BSBrowserItem *newBrowserItem = [BSBrowserItem browserItemWithName:@"" urlTemplates:@[]];
-    [self.browsers addObject:newBrowserItem];
+    [self.browsersConfig.alternativeBrowsers addObject:newBrowserItem];
     [self.outlineView reloadData];
     
     NSUInteger row = [self.outlineView rowForItem:newBrowserItem];
+    [self.outlineView expandItem:newBrowserItem expandChildren:YES];
     [self.outlineView editColumn:0 row:row withEvent:[NSApp currentEvent] select:YES];
 }
 
@@ -114,14 +112,14 @@
     if ([item isKindOfClass:[BSBrowserItem class]]) {
         return ((BSBrowserItem *)item).urlTemplates.count;
     }
-    return self.browsers.count;
+    return self.browsersConfig.alternativeBrowsers.count;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
     if ([item isKindOfClass:[BSBrowserItem class]]) {
         return [((BSBrowserItem *)item).urlTemplates objectAtIndex:index];
     }
-    return [self.browsers objectAtIndex:index];
+    return [self.browsersConfig.alternativeBrowsers objectAtIndex:index];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
@@ -159,7 +157,7 @@
         browserItem.applicationName = newValue;
         
         if ([newValue isEqualToString:@""] && browserItem.urlTemplates.count == 0) {
-            [self.browsers removeObject:browserItem];
+            [self.browsersConfig.alternativeBrowsers removeObject:browserItem];
             [self.outlineView reloadData];
         }
     } else {
