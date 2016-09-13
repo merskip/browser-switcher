@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BSBrowserItem : NSObject
+@interface BSBrowserItem : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSString *applicationName;
 @property (nonatomic, strong) NSMutableArray<NSString *> *urlTemplates;

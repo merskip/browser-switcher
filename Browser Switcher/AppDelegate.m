@@ -25,9 +25,10 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSArray *browers = @[[BSBrowserItem browserItemWithName:@"Google chrome" urlTemplates:@[@"*.leader.biz"]],
-                             [BSBrowserItem browserItemWithName:@"Firefox" urlTemplates:@[@"*.wykop.pl", @"facebook.com"]]
-                             ];
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSData *browersData = [userDefaults objectForKey:@"browers"];
+        NSMutableArray<BSBrowserItem *> *browers = [NSKeyedUnarchiver unarchiveObjectWithData:browersData];
         
         _browsers = [NSMutableArray arrayWithArray:browers];
     }
@@ -67,6 +68,19 @@
         [[NSWorkspace sharedWorkspace] openFile:stringUrl withApplication:@"/Applications/Google Chrome.app"];
     }
 }
+
+- (IBAction)saveHandler:(id)sender {
+    NSData *browersData = [NSKeyedArchiver archivedDataWithRootObject:self.browsers];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:browersData forKey:@"browers"];
+    if (![userDefaults synchronize]) {
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSCriticalAlertStyle;
+        alert.messageText = @"Failed save changes";
+        [alert runModal];
+    }
+}
+
 
 - (IBAction)addBrowserHandler:(id)sender {
     BSBrowserItem *newBrowserItem = [BSBrowserItem browserItemWithName:@"" urlTemplates:@[]];

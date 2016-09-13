@@ -22,4 +22,17 @@
     return [[self alloc] initWithName:name urlTemplates:urlTemplates];
 }
 
+- (void)encodeWithCoder:(NSCoder *)encoder {
+    [encoder encodeObject:self.applicationName forKey:@"applicationName"];
+    [encoder encodeObject:self.urlTemplates forKey:@"urlTemplates"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)decoder {
+    if (self = [super init]) {
+        self.applicationName = [decoder decodeObjectForKey:@"applicationName"];
+        self.urlTemplates = [decoder decodeObjectForKey:@"urlTemplates"];
+    }
+    return self;
+}
+
 @end
