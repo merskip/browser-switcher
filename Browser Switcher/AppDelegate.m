@@ -8,15 +8,28 @@
 
 #import "AppDelegate.h"
 #import "BSBrowserOpener.h"
+#import "BSBrowserItem.h"
 
-@interface AppDelegate ()
+@interface AppDelegate () <NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 @property (nonatomic, assign) BOOL recivedUrl;
 @property (weak) IBOutlet NSWindow *window;
 
+@property (nonatomic, strong) NSArray<BSBrowserItem *> *browsers;
+@property (weak) IBOutlet NSOutlineView *outlineView;
+
 @end
 
 @implementation AppDelegate
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _browsers = @[[BSBrowserItem browserItemWithName:@"Google chrome" urlTemplates:@[@"*.leader.biz"]],
+                      [BSBrowserItem browserItemWithName:@"Firefox" urlTemplates:@[@"*.wykop.pl", @"facebook.com"]]
+                      ];
+    }
+    return self;
+}
 
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
     [[NSAppleEventManager sharedAppleEventManager] setEventHandler:self andSelector:@selector(handleAppleEvent:withReplyEvent:) forEventClass:kInternetEventClass andEventID:kAEGetURL];
@@ -26,11 +39,7 @@
     if (self.recivedUrl) {
         [[NSApplication sharedApplication] terminate:self];
     } else {
-        
-        NSAlert *alert = [NSAlert new];
-        alert.informativeText = [NSString stringWithFormat:@"Run for configuration: pid=%d", [NSProcessInfo processInfo].processIdentifier];
-        [alert runModal];
-        
+        [self.outlineView expandItem:nil expandChildren:YES];
         [self.window setIsVisible:YES];
     }
 }
@@ -56,5 +65,39 @@
     }
 }
 
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    if ([item isKindOfClass:[BSBrowserItem class]]) {
+        return ((BSBrowserItem *)item).urlTemplates.count;
+    }
+    return self.browsers.count;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+    if ([item isKindOfClass:[BSBrowserItem class]]) {
+        return [((BSBrowserItem *)item).urlTemplates objectAtIndex:index];
+    }
+    return [self.browsers objectAtIndex:index];
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    return [item isKindOfClass:[BSBrowserItem class]];
+}
+
+- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    NSTableCellView *cellView;
+    
+    if ([item isKindOfClass:[BSBrowserItem class]]) {
+        
+        BSBrowserItem *browserItem = (BSBrowserItem *)item;
+        
+        cellView = [outlineView makeViewWithIdentifier:@"valueCell" owner:self];
+        cellView.textField.stringValue = browserItem.applicationName;
+    } else {
+        cellView = [outlineView makeViewWithIdentifier:@"valueCell" owner:self];
+        cellView.textField.stringValue = item;
+    }
+    
+    return cellView;
+}
 
 @end
