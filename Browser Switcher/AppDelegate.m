@@ -10,7 +10,7 @@
 #import "BSBrowserOpener.h"
 #import "BSBrowserItem.h"
 
-@interface AppDelegate () <NSOutlineViewDelegate, NSOutlineViewDataSource>
+@interface AppDelegate () <NSOutlineViewDelegate, NSOutlineViewDataSource, NSTextFieldDelegate>
 
 @property (nonatomic, assign) BOOL recivedUrl;
 @property (weak) IBOutlet NSWindow *window;
@@ -84,20 +84,35 @@
 }
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
-    NSTableCellView *cellView;
+    NSTableCellView *cellView = [outlineView makeViewWithIdentifier:@"valueCell" owner:self];
+    cellView.textField.delegate = self;
     
     if ([item isKindOfClass:[BSBrowserItem class]]) {
-        
         BSBrowserItem *browserItem = (BSBrowserItem *)item;
-        
-        cellView = [outlineView makeViewWithIdentifier:@"valueCell" owner:self];
         cellView.textField.stringValue = browserItem.applicationName;
     } else {
-        cellView = [outlineView makeViewWithIdentifier:@"valueCell" owner:self];
         cellView.textField.stringValue = item;
     }
     
     return cellView;
+}
+
+- (void)controlTextDidEndEditing:(NSNotification *)obj {
+    NSTextField *textField = [obj object];
+    NSString *newValue = [textField stringValue];
+    
+    NSUInteger row = [self.outlineView rowForView:textField];
+    id item = [self.outlineView itemAtRow:row];
+    
+    if ([item isKindOfClass:[BSBrowserItem class]]) {
+        BSBrowserItem *browserItem = (BSBrowserItem *)item;
+        browserItem.applicationName = newValue;
+    } else {
+        BSBrowserItem *browserItem = [self.outlineView parentForItem:item];
+        NSInteger index = [self.outlineView childIndexForItem:item];
+        
+        [browserItem.urlTemplates replaceObjectAtIndex:index withObject:newValue];
+    }
 }
 
 @end

@@ -11,7 +11,7 @@
 @interface BSBrowserItem : NSObject
 
 @property (nonatomic, strong) NSString *applicationName;
-@property (nonatomic, strong) NSArray<NSString *> *urlTemplates;
+@property (nonatomic, strong) NSMutableArray<NSString *> *urlTemplates;
 
 + (instancetype)browserItemWithName:(NSString *)name urlTemplates:(NSArray<NSString *> *)urlTemplates;
 

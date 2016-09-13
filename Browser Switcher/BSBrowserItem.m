@@ -13,7 +13,7 @@
 - (instancetype)initWithName:(NSString *)name urlTemplates:(NSArray<NSString *> *)urlTemplates {
     if (self = [super init]) {
         _applicationName = name;
-        _urlTemplates = urlTemplates;
+        _urlTemplates = [NSMutableArray arrayWithArray:urlTemplates];
     }
     return self;
 }
