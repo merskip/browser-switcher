@@ -10,6 +10,8 @@
 
 @interface BSBrowserOpener : NSObject
 
++ (BOOL)openUrl:(NSString *)url;
+
 + (BOOL)openUrl:(NSString *)url withApplication:(NSString *)application;
 
 @end

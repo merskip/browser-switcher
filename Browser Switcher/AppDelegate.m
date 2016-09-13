@@ -60,12 +60,12 @@
 
 - (void)openUrl:(NSString *)stringUrl {
     
-    if ([stringUrl containsString:@"eleader.biz"]) {
-        
-        [BSBrowserOpener openUrl:stringUrl withApplication:@"Safari"];
-        
-    } else {
-        [[NSWorkspace sharedWorkspace] openFile:stringUrl withApplication:@"/Applications/Google Chrome.app"];
+    if (![BSBrowserOpener openUrl:stringUrl]) {
+        NSAlert *alert = [NSAlert new];
+        alert.alertStyle = NSCriticalAlertStyle;
+        alert.messageText = @"Failed open url";
+        alert.informativeText = stringUrl;
+        [alert runModal];
     }
 }
 
