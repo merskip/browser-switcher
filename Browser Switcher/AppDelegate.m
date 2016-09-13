@@ -15,8 +15,9 @@
 @property (nonatomic, assign) BOOL recivedUrl;
 @property (weak) IBOutlet NSWindow *window;
 
-@property (nonatomic, strong) NSArray<BSBrowserItem *> *browsers;
+@property (nonatomic, strong) NSMutableArray<BSBrowserItem *> *browsers;
 @property (weak) IBOutlet NSOutlineView *outlineView;
+@property (weak) IBOutlet NSButton *addUrlTemplateButton;
 
 @end
 
@@ -24,9 +25,11 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        _browsers = @[[BSBrowserItem browserItemWithName:@"Google chrome" urlTemplates:@[@"*.leader.biz"]],
-                      [BSBrowserItem browserItemWithName:@"Firefox" urlTemplates:@[@"*.wykop.pl", @"facebook.com"]]
-                      ];
+        NSArray *browers = @[[BSBrowserItem browserItemWithName:@"Google chrome" urlTemplates:@[@"*.leader.biz"]],
+                             [BSBrowserItem browserItemWithName:@"Firefox" urlTemplates:@[@"*.wykop.pl", @"facebook.com"]]
+                             ];
+        
+        _browsers = [NSMutableArray arrayWithArray:browers];
     }
     return self;
 }
@@ -65,6 +68,34 @@
     }
 }
 
+- (IBAction)addBrowserHandler:(id)sender {
+    BSBrowserItem *newBrowserItem = [BSBrowserItem browserItemWithName:@"" urlTemplates:@[]];
+    [self.browsers addObject:newBrowserItem];
+    [self.outlineView reloadData];
+    
+    NSUInteger row = [self.outlineView rowForItem:newBrowserItem];
+    [self.outlineView editColumn:0 row:row withEvent:[NSApp currentEvent] select:YES];
+}
+
+- (IBAction)addUrlTemplateHandler:(id)sender {
+    NSInteger row = self.outlineView.selectedRow;
+    id item = [self.outlineView itemAtRow:row];
+    
+    BSBrowserItem *browserItem;
+    if ([item isKindOfClass:[BSBrowserItem class]]) {
+        browserItem = (BSBrowserItem *)item;
+    } else {
+        browserItem = [self.outlineView parentForItem:item];
+    }
+    
+    NSString *newUrlTemplate = @"";
+    [browserItem.urlTemplates addObject:newUrlTemplate];
+    [self.outlineView reloadData];
+    
+    [self.outlineView editColumn:0 row:[self.outlineView rowForItem:newUrlTemplate] withEvent:[NSApp currentEvent] select:YES];
+}
+
+
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     if ([item isKindOfClass:[BSBrowserItem class]]) {
         return ((BSBrowserItem *)item).urlTemplates.count;
@@ -97,6 +128,11 @@
     return cellView;
 }
 
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+    NSInteger row = [[notification object] selectedRow];
+    self.addUrlTemplateButton.enabled = (row >= 0);
+}
+
 - (void)controlTextDidEndEditing:(NSNotification *)obj {
     NSTextField *textField = [obj object];
     NSString *newValue = [textField stringValue];
@@ -107,11 +143,21 @@
     if ([item isKindOfClass:[BSBrowserItem class]]) {
         BSBrowserItem *browserItem = (BSBrowserItem *)item;
         browserItem.applicationName = newValue;
+        
+        if ([newValue isEqualToString:@""] && browserItem.urlTemplates.count == 0) {
+            [self.browsers removeObject:browserItem];
+            [self.outlineView reloadData];
+        }
     } else {
         BSBrowserItem *browserItem = [self.outlineView parentForItem:item];
         NSInteger index = [self.outlineView childIndexForItem:item];
         
         [browserItem.urlTemplates replaceObjectAtIndex:index withObject:newValue];
+        
+        if ([newValue isEqualToString:@""]) {
+            [browserItem.urlTemplates removeObjectAtIndex:index];
+            [self.outlineView reloadData];
+        }
     }
 }
 
